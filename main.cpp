@@ -10,6 +10,7 @@
 #include <vector>
 #include "settings.h"
 #include "snake.h"
+#include "apple.h"
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 
@@ -29,6 +30,7 @@ int main() {
     refreshScreen();
 
     Snake snake{S.screenRows, S.screenCols};
+    Apple apple{S.screenRows, S.screenCols};
     //    std::cout<<"Initial direction: "<<snake.getDirection()<<"\r\n"a
     while(1) {
          int direction = processKeypress();
@@ -45,6 +47,9 @@ int main() {
                 break; 
         };
         snake.move();
+        snake.drawSnake();
+
+        apple.setAndDraw();
         usleep(100000);
     }
        return 0;
