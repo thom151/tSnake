@@ -6,14 +6,29 @@
 #include <random>
 #include <string>
 #include <unistd.h>
+#include <unordered_set>
 #include <vector>
 #include "settings.h"
+#include "apple.h"
 
 
 struct Coordinates{
     int x;
     int y;
+
+    bool operator==(const Coordinates& c) const {
+        return x == c.x && y == c.y;
+    }
 };
+
+namespace std {
+    template <>
+    struct hash<Coordinates> {
+        size_t operator()(const Coordinates& c) const {
+            return hash<int>()(c.x) ^ (hash<int>()(c.y) << 1);
+        }
+    };
+}
 
 class Snake {
 private:
@@ -21,11 +36,16 @@ private:
     int m_hy;
     int m_direction;
     int m_length;
+    int m_points;
+    int screenRows;
+    int screenCols;
     std::vector<Coordinates> m_body;
+    std::unordered_set<Coordinates> m_bodySet;
+    
 
 public:
     Snake(const int screen_rows,const int screen_cols)
-    : m_length{3}
+    : m_length{3}, m_points{0}, screenRows{screen_rows}, screenCols{screen_cols}
     {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -57,8 +77,50 @@ public:
                     break;
             }
             m_body.push_back(cell);
+            m_bodySet.insert(cell);
+
         }
          
+    }
+
+    bool ateApple(Apple& apple) {
+        if (apple.getXpos() == m_hx && apple.getYpos() == m_hy) {
+            return true;
+        }
+        return false;
+    } 
+
+    bool hitWall() {
+        return (m_hx == screenCols || m_hx == 0 || m_hy == screenRows|| m_hy == 0);
+    }
+
+    void grow() {
+        Coordinates newTail = m_body.back();
+
+        switch(m_direction) {
+            case UP:
+                newTail.y += 1;
+                break;
+            case DOWN:
+                newTail.y -= 1;
+                break;
+            case LEFT:
+                newTail.x += 1;
+                break;
+            case RIGHT:
+                newTail.x -= 1;
+                break;
+
+        };
+
+        m_body.push_back(newTail);
+        m_bodySet.insert(newTail);
+        ++m_length;
+    }
+
+    void increasePoints() {
+        ++m_points;
+        return;
     }
 
     void setPosition() {
@@ -71,6 +133,7 @@ public:
         Coordinates tail = m_body.back();
         std::string clearCommand = "\x1b[" + std::to_string(tail.y) + ";" + std::to_string(tail.x) + "H ";
         write(STDOUT_FILENO, clearCommand.c_str(), clearCommand.length());
+        m_bodySet.erase(tail);
     }
     void move() {
 
@@ -95,7 +158,19 @@ public:
                 break; 
         }
 
+        Coordinates tail = m_body.back();
+
+          if (m_bodySet.count(newHead)) {
+            write(STDOUT_FILENO, "\x1b[2J", 4);
+            write(STDOUT_FILENO, "\x1b[H", 3);
+            exit(0);
+
+        }
+
+
         m_body.insert(m_body.begin(), newHead);
+        m_bodySet.insert(newHead);
+        m_bodySet.erase(tail);
         m_body.pop_back();
 
         m_hx = newHead.x;
@@ -103,6 +178,13 @@ public:
     }
 
     void setDirection(int move) {
+        switch(move) {
+            case RIGHT: if (m_direction == LEFT) return; break; 
+            case LEFT : if (m_direction == RIGHT) return; break;
+            case UP   : if (m_direction == DOWN) return; break;
+            case DOWN : if (m_direction == UP) return; break;
+            default: return;
+        };
         m_direction = move; 
     }
 

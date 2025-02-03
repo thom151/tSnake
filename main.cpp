@@ -47,8 +47,19 @@ int main() {
                 break; 
         };
         snake.move();
-        snake.drawSnake();
+        if(snake.ateApple(apple)) {
+            apple.reset();
+            snake.grow();
+            snake.increasePoints();
+        }
 
+        if (snake.hitWall()) {
+            write(STDOUT_FILENO, "\x1b[2J", 4);
+            write(STDOUT_FILENO, "\x1b[H", 3);
+            exit(0);
+        }
+
+        snake.drawSnake();
         apple.setAndDraw();
         usleep(100000);
     }
