@@ -1,6 +1,7 @@
 # 🐍 Snake Game (Terminal Version)
 
-This project is a terminal-based implementation of the classic **Snake Game**. 
+##  📖 Description
+tSnake is a terminal-based implementation of the classic **Snake Game**. 
 ---
 
 ## 💻 Features
