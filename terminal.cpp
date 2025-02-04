@@ -31,7 +31,7 @@ void displayStart() {
 
             buf += welcome;
 
-            int directionSpaces = (S.screenCols - (directions.length() - 5))/2;
+            int directionSpaces = (S.screenCols - (directions.length() - 8))/2;
             for(; directionSpaces > 0; --directionSpaces) {
                 buf += " ";
             }
