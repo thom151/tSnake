@@ -27,8 +27,8 @@ This project is a terminal-based implementation of the classic **Snake Game**.
 ### 🦵 Steps
 1. Clone this repository:
    ```bash
-   git clone [<repository-url>](https://github.com/thom151/tSnake)uu
-   cd snake-game
+   git clone https://github.com/thom151/tSnake
+   cd tSnake
    ```
 2. Build the project using `make`:
    ```bash
