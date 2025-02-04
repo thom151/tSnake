@@ -1,7 +1,8 @@
 # 🐍 Snake Game (Terminal Version)
 
 ##  📖 Description
-tSnake is a terminal-based implementation of the classic **Snake Game**. 
+tSnake is a terminal-based implementation of the classic **Snake Game**.
+
 ---
 
 ## 💻 Features
