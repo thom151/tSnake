@@ -21,5 +21,6 @@ struct appendBuffer {
     std::string apBuf;
 };
 
+extern struct screenConfig S;
 
 #endif

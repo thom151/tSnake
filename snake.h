@@ -83,6 +83,19 @@ public:
          
     }
 
+    void displayPoints() {
+        std::string moveCursor = "\x1b[" + std::to_string(screenRows) + ";1H";
+
+        std::string clearLine = "\x1b[2K";
+
+        std::string status = " Score: " + std::to_string(m_points) + " ";
+        write(STDOUT_FILENO, moveCursor.c_str(), moveCursor.length()); 
+        write(STDOUT_FILENO, clearLine.c_str(), clearLine.length());
+        write(STDOUT_FILENO, status.c_str(), status.length());
+
+        
+    }
+
     bool ateApple(Apple& apple) {
         if (apple.getXpos() == m_hx && apple.getYpos() == m_hy) {
             return true;

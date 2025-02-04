@@ -20,7 +20,7 @@ public:
         std::mt19937 gen(rd());
 
         std::uniform_int_distribution<>hx(10, screen_cols -10 );
-        std::uniform_int_distribution<>hy(10, screen_rows -10 );
+        std::uniform_int_distribution<>hy(20, screen_rows -10 );
 
         m_x = hx(gen);
         m_y = hy(gen);
