@@ -149,6 +149,8 @@ void disableRawMode() {
     if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &S.orig_termios)==-1) {
         die("tcsetattr");
     };
+
+    std::cout<<"YOU GOT "<<snakePoints<<" POINTS\r\n";
 }
 
 

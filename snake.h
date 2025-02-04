@@ -204,6 +204,10 @@ public:
     int getDirection() {
         return m_direction;
     }
+
+    int getPoints() {
+        return m_points;
+    }
   
     void drawSnake() {
         for(int i=0; i<m_length; ++i) {

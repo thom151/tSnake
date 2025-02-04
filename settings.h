@@ -22,5 +22,6 @@ struct appendBuffer {
 };
 
 extern struct screenConfig S;
+extern int snakePoints;
 
 #endif

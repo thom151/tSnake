@@ -4,6 +4,8 @@
 #include "apple.h"
 #include "terminal.h"
 
+
+int snakePoints = 0;
 int main() {
     enableRawMode();
     screenInit();
@@ -32,6 +34,7 @@ int main() {
             apple.reset();
             snake.grow();
             snake.increasePoints();
+            snakePoints = snake.getPoints();
         }
 
         if (snake.hitWall()) {
@@ -46,6 +49,7 @@ int main() {
         snake.displayPoints();
         usleep(100000/2);
     }
+
        return 0;
 }
 
